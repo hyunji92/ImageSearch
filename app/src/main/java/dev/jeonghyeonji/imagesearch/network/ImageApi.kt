@@ -1,7 +1,7 @@
 package dev.jeonghyeonji.imagesearch.network
 
 import dev.jeonghyeonji.imagesearch.model.Image
-import retrofit2.Call
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,6 +15,6 @@ interface ImageApi {
     fun getImage(
             @Query("apikey") apikey: String,
             @Query("q") searchword: String, @Query("output") output: String = "json"
-    ): Call<List<Image>>
+    ): Observable<List<Image>>
 
 }
