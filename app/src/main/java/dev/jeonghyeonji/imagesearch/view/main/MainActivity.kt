@@ -3,7 +3,6 @@ package dev.jeonghyeonji.imagesearch.view.main
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
@@ -82,7 +81,10 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
+                            Log.d("AA", "Image Add $it")
+                            (recyclerView.adapter as ImageAdapter).imageList.clear()
                             (recyclerView.adapter as ImageAdapter).imageList.addAll(it.channel.item)
+                            (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
                         },
                         {
                             Log.d("AA", "onError $it")
