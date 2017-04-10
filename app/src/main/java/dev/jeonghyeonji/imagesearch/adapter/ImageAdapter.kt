@@ -1,17 +1,30 @@
 package dev.jeonghyeonji.imagesearch.adapter
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import com.facebook.drawee.controller.BaseControllerListener
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import dev.jeonghyeonji.imagesearch.R
 import dev.jeonghyeonji.imagesearch.model.ImageItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.list_item.view.*
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ProgressBarDrawable
+import com.facebook.drawee.interfaces.DraweeController
+import com.facebook.drawee.generic.GenericDraweeHierarchy
+
+
+
+
 
 
 /**
@@ -37,14 +50,30 @@ class ImageAdapter(var c: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
 
         fun bindData(imageItem: ImageItem) {
 
-            Observable.just(imageItem.thumbnail)
+            Observable.just(imageItem.image)
                     .subscribeOn(Schedulers.newThread())
                     .filter { it != null }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
-                        itemView.fre_image_view.setImageURI(Uri.parse(imageItem.image), itemView.context)
+                        initViewsAndEvent(Uri.parse(imageItem.image))
                     }
         }
+
+        fun initViewsAndEvent(image: Uri) {
+
+            val builder = GenericDraweeHierarchyBuilder(Resources.getSystem())
+            val hierarchy = builder
+                    .setFadeDuration(300)
+                    .setProgressBarImage(ProgressBarDrawable())
+                    .build()
+            val controller = Fresco.newDraweeControllerBuilder()
+                    .setUri(image)
+                    .setAutoPlayAnimations(true)
+                    .build()
+            itemView.fre_image_view.hierarchy = hierarchy
+            itemView.fre_image_view.controller = controller
+        }
+
     }
 
 }
