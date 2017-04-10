@@ -1,11 +1,14 @@
 package dev.jeonghyeonji.imagesearch.view.main
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.facebook.drawee.backends.pipeline.Fresco
 import dev.jeonghyeonji.imagesearch.R
 import dev.jeonghyeonji.imagesearch.adapter.ImageAdapter
@@ -15,6 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,11 +65,13 @@ class MainActivity : AppCompatActivity() {
 
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(s: String?): Boolean {
+
                 subject.onNext(s)
                 return false
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
+
                 subject.onNext(query)
                 return false
             }
@@ -81,17 +87,28 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {
-                            Log.d("AA", "Image Add $it")
+                            Log.d("Test", "Image Add $it")
+
                             (recyclerView.adapter as ImageAdapter).imageList.clear()
                             (recyclerView.adapter as ImageAdapter).imageList.addAll(it.channel.item)
                             (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
-                        },
-                        {
-                            Log.d("AA", "onError $it")
 
                         },
                         {
-                            Log.d("AA", "Complete")
+                            Log.d("Test", "onError $it")
+
+                            Toast.makeText(baseContext, "검색된 이미지가 없습니다", Toast.LENGTH_SHORT).show()
+                            (recyclerView.adapter as ImageAdapter).imageList.clear()
+                            (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
+
+                        },
+                        {
+                            Log.d("Test", "Complete")
+                            val view = this.getCurrentFocus()
+                            if (view != null) {
+                                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+                            }
                         })
 
 
