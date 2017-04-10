@@ -13,6 +13,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import dev.jeonghyeonji.imagesearch.R
 import dev.jeonghyeonji.imagesearch.adapter.ImageAdapter
 import dev.jeonghyeonji.imagesearch.network.ImageRestClient
+import dev.jeonghyeonji.imagesearch.presenter.ImageListPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
