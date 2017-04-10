@@ -1,8 +1,8 @@
 package dev.jeonghyeonji.imagesearch.model
 
 /**
- * Created by jeonghyeonji on 2017. 4. 6..
- */
+* Created by jeonghyeonji on 2017. 4. 6..
+*/
 data class Image(
         val title: String, //검색 제목
         val link: String, //서비스 URL

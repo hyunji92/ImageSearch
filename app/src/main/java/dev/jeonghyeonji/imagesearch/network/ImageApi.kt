@@ -6,8 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 /**
- * Created by jeonghyeonji on 2017. 4. 6..
- */
+* Created by jeonghyeonji on 2017. 4. 6..
+*/
 interface ImageApi {
 
     //발급된 key도 넘긴다

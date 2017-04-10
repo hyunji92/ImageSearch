@@ -1,8 +1,8 @@
 package dev.jeonghyeonji.imagesearch.model
 
 /**
- * Created by jeonghyeonji on 2017. 4. 6..
- */
+* Created by jeonghyeonji on 2017. 4. 6..
+*/
 data class ImageItem (
         val title    : String,    //개별 검색 결과의 제목
         val link    : String,    //개별 검색 결과의 link url

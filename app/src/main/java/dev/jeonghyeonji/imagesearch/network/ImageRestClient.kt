@@ -7,8 +7,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * Created by jeonghyeonji on 2017. 4. 6..
- */
+* Created by jeonghyeonji on 2017. 4. 6..
+*/
 
 class ImageRestClient {
     var retrofit: Retrofit

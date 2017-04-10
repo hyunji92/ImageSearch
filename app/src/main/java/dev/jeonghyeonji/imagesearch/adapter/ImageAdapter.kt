@@ -2,14 +2,13 @@ package dev.jeonghyeonji.imagesearch.adapter
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import com.facebook.drawee.controller.BaseControllerListener
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ProgressBarDrawable
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import dev.jeonghyeonji.imagesearch.R
 import dev.jeonghyeonji.imagesearch.model.ImageItem
@@ -17,19 +16,11 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.list_item.view.*
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.drawable.ProgressBarDrawable
-import com.facebook.drawee.interfaces.DraweeController
-import com.facebook.drawee.generic.GenericDraweeHierarchy
-
-
-
-
 
 
 /**
- * Created by jeonghyeonji on 2017. 4. 7..
- */
+* Created by jeonghyeonji on 2017. 4. 7..
+*/
 class ImageAdapter(var c: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val imageList = ArrayList<ImageItem>()
