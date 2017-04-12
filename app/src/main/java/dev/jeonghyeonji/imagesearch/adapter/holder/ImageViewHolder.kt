@@ -23,5 +23,6 @@ class ImageViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .subscribe {
                     itemView.fre_image_view.setImageURI(Uri.parse(imageItem.image), itemView.context)
                 }
+                .apply { dispose() }
     }
 }

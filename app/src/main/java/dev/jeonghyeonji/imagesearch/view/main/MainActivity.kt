@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { connect(it) }
+                .apply { dispose() }
 
         // RecyclerView setting
         recyclerView.apply {
@@ -47,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             val linearLayout = LinearLayoutManager(context)
             layoutManager = linearLayout
             clearOnScrollListeners()
-
         }
         // Adapter setting
         initAdapter()
