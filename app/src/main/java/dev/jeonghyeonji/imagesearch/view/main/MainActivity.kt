@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         // 검색어를 쓰고 1 초가 지나면 검색을 진행하도록 한다
         subject
                 .debounce(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { connect(it) }
 
         // RecyclerView setting
