@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.Menu
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Fresco init
-        Fresco.initialize(baseContext)
+        Fresco.initialize(applicationContext) //baseContext
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 .debounce(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { connect(it) }
+                .apply { dispose() }
 
         // RecyclerView setting
         recyclerView.apply {
@@ -46,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             val linearLayout = LinearLayoutManager(context)
             layoutManager = linearLayout
             clearOnScrollListeners()
-
         }
         // Adapter setting
         initAdapter()
@@ -57,6 +58,10 @@ class MainActivity : AppCompatActivity() {
         if (recyclerView.adapter == null) {
             recyclerView.adapter = ImageAdapter(this)
         }
+    }
+
+    fun Context.toast(message: String){
+        Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
+
                 subject.onNext(query)
                 return false
             }
@@ -80,12 +86,12 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    //network
+    //network test
     fun connect(searchWord: String) {
 
         if (searchWord.isNullOrBlank()) {
 
-            Toast.makeText(baseContext, "검색된 이미지가 없습니다", Toast.LENGTH_SHORT).show()
+            toast("검색된 이미지가 없습니다")
             (recyclerView.adapter as ImageAdapter).imageList.clear()
             (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
 
@@ -96,15 +102,15 @@ class MainActivity : AppCompatActivity() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             {
-                                //onNext
+                                // onNext
                                 (recyclerView.adapter as ImageAdapter).imageList.clear()
                                 (recyclerView.adapter as ImageAdapter).imageList.addAll(it.channel.item)
                                 (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
 
                             },
                             {
-                                //onError
-                                Toast.makeText(baseContext, "이미지를 불러오는데 문제가 발생했습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                                Log.d("Test", "onError $it")
+                                toast("이미지를 불러오는데 문제가 발생했습니다. 다시 시도해 주세요.")
                                 (recyclerView.adapter as ImageAdapter).imageList.clear()
                                 (recyclerView.adapter as ImageAdapter).notifyDataSetChanged()
 
@@ -127,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
 }
+
+
+
