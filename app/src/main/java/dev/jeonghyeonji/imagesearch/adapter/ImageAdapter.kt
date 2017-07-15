@@ -11,6 +11,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.drawable.ProgressBarDrawable
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import dev.jeonghyeonji.imagesearch.R
+import dev.jeonghyeonji.imagesearch.adapter.holder.ImageViewHolder
 import dev.jeonghyeonji.imagesearch.model.ImageItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,44 +28,14 @@ class ImageAdapter(var c: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        (holder as? ViewHolder)?.bindData(imageList[position])
+        (holder as? ImageViewHolder)?.bindData(imageList[position])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         val v = LayoutInflater.from(c).inflate(R.layout.list_item, parent, false)
-        return ViewHolder(v)
+        return ImageViewHolder(v)
     }
 
     override fun getItemCount(): Int = imageList.size
-
-    open class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bindData(imageItem: ImageItem) {
-
-            Observable.just(imageItem.image)
-                    .subscribeOn(Schedulers.newThread())
-                    .filter { it != null }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        initViewsAndEvent(Uri.parse(imageItem.image))
-                    }
-        }
-
-        fun initViewsAndEvent(image: Uri) {
-
-            val builder = GenericDraweeHierarchyBuilder(Resources.getSystem())
-            val hierarchy = builder
-                    .setFadeDuration(300)
-                    .setProgressBarImage(ProgressBarDrawable())
-                    .build()
-            val controller = Fresco.newDraweeControllerBuilder()
-                    .setUri(image)
-                    .setAutoPlayAnimations(true)
-                    .build()
-            itemView.fre_image_view.hierarchy = hierarchy
-            itemView.fre_image_view.controller = controller
-        }
-
-    }
 
 }

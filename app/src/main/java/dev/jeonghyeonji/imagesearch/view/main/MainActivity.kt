@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
@@ -29,6 +28,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        bottom_navigation.setOnNavigationItemSelectedListener {
+//
+//        }
 
         // Fresco init
         Fresco.initialize(applicationContext) //baseContext
@@ -60,9 +63,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun Context.toast(message: String){
-        Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
-    }
+    fun toast(message: String) = Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -126,10 +128,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideKeyBoard() {
-        val view = this.getCurrentFocus()
+        val view = this.currentFocus
         if (view != null) {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

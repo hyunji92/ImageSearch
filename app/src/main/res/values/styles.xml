@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="ThemeOverlay.default.BottomNavigation" parent="">
+        <item name="colorPrimary">?attr/colorAccent</item>
+    </style>
+
 </resources>
